@@ -1,0 +1,12 @@
+  - platform: samsungtv
+    host: 192.168.1.30
+    name: samsung_smart_tv
+  - platform: liveboxplaytv
+    host: 192.168.1.31
+    name: livebox_tv
+  - platform: webostv
+    host: 192.168.1.32
+    name: lg_webos_tv
+  - platform: soundtouch
+    host: 192.168.1.42
+    name: bose_chambre

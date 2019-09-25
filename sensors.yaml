@@ -51,3 +51,75 @@
     name: Isha
     resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
     value_template: '{{ value_json.data.timings.Isha }}'
+
+#################################################################
+## Air
+#################################################################
+
+  - platform: rest
+    name: Airparif
+    resource: http://www.airparif.asso.fr/appli/api/indice
+    value_template: '{{ value_json[1].indice }}'
+    scan_interval: 21600
+    headers:
+      User-Agent: Mozilla/5.0
+
+#################################################################
+## Template sensors
+#################################################################
+
+  - platform: template
+    sensors:
+      alarm_time:
+        friendly_name: 'Alarm time'
+        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour") | int, states("input_number.alarmminutes") | int) }}'
+
+      ha_last_restart:
+        friendly_name: 'HA Last Restart'
+        value_template: '{{ as_timestamp(states.automation.startup_notification.attributes.last_triggered) | timestamp_custom("%b %d %X") }}'
+        icon_template: mdi:clock-start
+
+      wii:
+        friendly_name: 'Wii'
+        value_template: "{{ 'Online' if is_state('device_tracker.wii', 'home') else 'Offline' }}"
+        icon_template: mdi:gamepad-variant
+
+      canonprinter:
+        friendly_name: 'Canon printer'
+        value_template: "{{ 'Online' if is_state('device_tracker.host001_2', 'home') else 'Offline' }}"
+        icon_template: mdi:printer
+
+      samsungtv:
+        friendly_name: 'Samsung TV'
+        value_template: "{{ 'Online' if is_state('device_tracker.host001', 'home') else 'Offline' }}"
+        icon_template: mdi:television
+
+      sonyspeaker:
+        friendly_name: 'Sony Speaker'
+        value_template: "{{ 'Online' if is_state('device_tracker.chromecast_audio_1', 'home') else 'Offline' }}"
+        icon_template: mdi:speaker
+
+      yassine_birthday:
+        friendly_name: 'Yassine birthday'
+        value_template: "29-1"
+        icon_template: mdi:cake-variant
+
+      mariam_birthday:
+        friendly_name: 'Mariam birthday'
+        value_template: "29-7"
+        icon_template: mdi:cake-variant
+
+      ordures:
+        friendly_name: 'Ordures'
+        value_template: "Lundi et Vendredi Matin"
+        icon_template: mdi:delete
+
+      emballages:
+        friendly_name: 'Emballages'
+        value_template: "Vendredi Apres-midi"
+        icon_template: mdi:recycle
+
+      encombrants:
+        friendly_name: 'Encombrants'
+        value_template: "Dernier Vendredi"
+        icon_template: mdi:weight

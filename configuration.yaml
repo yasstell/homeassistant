@@ -13,3 +13,8 @@ tts:
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+sensor: !include sensors.yaml
+input_boolean: !include input_boolean.yaml
+input_number: !include input_number.yaml
+media_player: !include media_player.yaml
+cast: !include cast.yaml

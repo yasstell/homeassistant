@@ -21,10 +21,16 @@ www/
 secrets.yaml
 ip_bans.yaml
 known_devices.yaml
+*.pid
+*.xml
+*.csr
+*.crt
+*.key
 *.conf
 *.db
 *.uuid
 cameras.yaml
+OZW_Log.txt
 
 # Operating System Trash Files
 .DS_Store

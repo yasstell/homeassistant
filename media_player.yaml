@@ -9,4 +9,4 @@
     name: lg_webos_tv
   - platform: soundtouch
     host: 192.168.1.42
-    name: bose_chambre
+    name: bose_speaker

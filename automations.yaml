@@ -84,7 +84,3 @@
       - service: light.turn_on
         data:
           entity_id: light.lifx
-      - delay: '00:00:30'
-      - service: media_player.media_stop
-        data:
-          entity_id: media_player.bose_speaker

@@ -1,5 +1,5 @@
-  - id: 1001
-    alias: Adhan_start
+  - id: adhan_start
+    alias: Adhan start
     trigger:
       platform: time_pattern
       minutes: '/1'
@@ -23,8 +23,8 @@
           media_content_id: http://192.168.1.12:8123/local/adhan.mp3
           media_content_type: 'audio/mp3'
 
-  - id: 1002
-    alias: Adhan_stop
+  - id: adhan_stop
+    alias: Adhan stop
     trigger:
       platform: state
       entity_id: input_boolean.adhanaudio
@@ -35,7 +35,7 @@
       data:
         entity_id: media_player.sony_speaker_stereo
 
-  - id: 2001
+  - id: wakeup_automation
     alias: Wakeup automation
     trigger:
       platform: time_pattern

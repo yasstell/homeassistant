@@ -52,6 +52,16 @@
     resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
     value_template: '{{ value_json.data.timings.Isha }}'
 
+  - platform: rest
+    name: Hijri
+    resource: http://api.aladhan.com/gToH
+    value_template: '{{ value_json.data.hijri.date }}'
+
+  - platform: rest
+    name: Aid
+    resource: http://api.aladhan.com/nextHijriHoliday
+    value_template: '{{ value_json.data.hijri.holidays[0] }} {{ value_json.data.hijri.date }} {{ value_json.data.gregorian.date }}'
+
 #################################################################
 ## Air
 #################################################################
@@ -79,47 +89,39 @@
         value_template: '{{ as_timestamp(states.automation.startup_notification.attributes.last_triggered) | timestamp_custom("%b %d %X") }}'
         icon_template: mdi:clock-start
 
-      wii:
-        friendly_name: 'Wii'
-        value_template: "{{ 'Online' if is_state('device_tracker.wii', 'home') else 'Offline' }}"
-        icon_template: mdi:gamepad-variant
+#################################################################
+## Power
+#################################################################
 
-      canonprinter:
-        friendly_name: 'Canon printer'
-        value_template: "{{ 'Online' if is_state('device_tracker.host001_2', 'home') else 'Offline' }}"
-        icon_template: mdi:printer
+  - platform: rest
+    name: power_usage
+    resource: http://192.168.1.12:8084/json.htm?type=devices&rid=1
+    value_template: '{{ (value_json.result[0].Usage.split())[0] }}'
+    unit_of_measurement: Watt
 
-      samsungtv:
-        friendly_name: 'Samsung TV'
-        value_template: "{{ 'Online' if is_state('device_tracker.host001', 'home') else 'Offline' }}"
-        icon_template: mdi:television
+  - platform: rest
+    name: power_today
+    resource: http://192.168.1.12:8084/json.htm?type=devices&rid=1
+    value_template: '{{ (value_json.result[0].CounterToday.split())[0] }}'
+    unit_of_measurement: kWh
 
-      sonyspeaker:
-        friendly_name: 'Sony Speaker'
-        value_template: "{{ 'Online' if is_state('device_tracker.chromecast_audio_1', 'home') else 'Offline' }}"
-        icon_template: mdi:speaker
+#################################################################
+## Network
+#################################################################
 
-      yassine_birthday:
-        friendly_name: 'Yassine birthday'
-        value_template: "29-1"
-        icon_template: mdi:cake-variant
+  - platform: dnsip
 
-      mariam_birthday:
-        friendly_name: 'Mariam birthday'
-        value_template: "29-7"
-        icon_template: mdi:cake-variant
-
-      ordures:
-        friendly_name: 'Ordures'
-        value_template: "Lundi et Vendredi Matin"
-        icon_template: mdi:delete
-
-      emballages:
-        friendly_name: 'Emballages'
-        value_template: "Vendredi Apres-midi"
-        icon_template: mdi:recycle
-
-      encombrants:
-        friendly_name: 'Encombrants'
-        value_template: "Dernier Vendredi"
-        icon_template: mdi:weight
+  - platform: netdata
+    resources:
+      memory_used:
+        data_group: system.ram
+        element: used
+      memory_cached:
+        data_group: system.ram
+        element: cached
+      cpu_system:
+        data_group: system.cpu
+        element: system
+      cpu_user:
+        data_group: system.cpu
+        element: user

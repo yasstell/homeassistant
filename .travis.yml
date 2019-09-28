@@ -4,6 +4,7 @@ python:
   - "3.6"
 
 before_install:
+  - cp secrets_dummy.yaml secrets.yaml
   - touch home-assistant_v2.db
   - touch home-assistant.log
 

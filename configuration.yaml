@@ -18,4 +18,3 @@ input_number: !include input_number.yaml
 media_player: !include media_player.yaml
 cast: !include cast.yaml
 meteo_france: !include meteo_france.yaml
-zwave: !include zwave.yaml

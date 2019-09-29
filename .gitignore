@@ -29,6 +29,7 @@ known_devices.yaml
 *.conf
 *.db
 *.uuid
+*.sqlite
 cameras.yaml
 OZW_Log.txt
 

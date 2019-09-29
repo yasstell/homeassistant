@@ -1,3 +1,0 @@
-  usb_path: /dev/ttyACM0
-  network_key: !secret zwave_key
-  debug: true

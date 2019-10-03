@@ -125,3 +125,10 @@
       cpu_user:
         data_group: system.cpu
         element: user
+
+#################################################################
+## Network
+#################################################################
+
+  - platform: travisci
+    api_key: !secret travis_key

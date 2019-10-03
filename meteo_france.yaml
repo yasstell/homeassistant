@@ -9,3 +9,4 @@
         - rain_chance
         - snow_chance
         - thunder_chance
+        - weather_alert

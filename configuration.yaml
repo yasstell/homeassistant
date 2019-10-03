@@ -18,3 +18,5 @@ input_number: !include input_number.yaml
 media_player: !include media_player.yaml
 cast: !include cast.yaml
 meteo_france: !include meteo_france.yaml
+telegram_bot: !include telegram_bot.yaml
+notify: !include notify.yaml

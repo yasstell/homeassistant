@@ -1,0 +1,4 @@
+  - platform: polling
+    api_key: !secret telegram_key
+    allowed_chat_ids:
+      - !secret chat_id

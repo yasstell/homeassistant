@@ -127,8 +127,10 @@
         element: user
 
 #################################################################
-## Network
+## Travis
 #################################################################
 
   - platform: travisci
     api_key: !secret travis_key
+    repository:
+      - homeassistant

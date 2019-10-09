@@ -130,7 +130,27 @@
 ## Travis
 #################################################################
 
-  - platform: travisci
-    api_key: !secret travis_key
-    repository:
-      - homeassistant
+  - platform: rest
+    name: travisci
+    resource: https://api.travis-ci.org/repo/25969396/branch/master
+    headers:
+      Travis-API-Version: 3
+      User-Agent: MyClient/1.0.0
+      Authorization: !secret travis_key
+    value_template: 'OK'
+    json_attributes:
+      - number
+      - state
+      - duration
+
+  - platform: template
+    sensors:
+      travis_number:
+        friendly_name: 'Travis build number'
+        value_template: '{{ states.sensor.travisci.attributes["last_build"]["number"] }}'
+      travis_state:
+        friendly_name: 'Travis build state'
+        value_template: '{{ states.sensor.travisci.attributes["last_build"]["state"] }}'
+      travis_duration:
+        friendly_name: 'Travis build duration'
+        value_template: '{{ states.sensor.travisci.attributes["last_build"]["duration"] }}'

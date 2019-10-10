@@ -1,0 +1,9 @@
+
+  trigger_build:
+    url: https://api.travis-ci.org/repo/25969396/requests
+    method: POST
+    headers:
+      Travis-API-Version: 3
+      User-Agent: Hass/1.0.0
+      Authorization: !secret travis_key
+    payload: '{"request": {"message": "Trigger build from homeassistant","branch":"master"}}'

@@ -84,11 +84,6 @@
         friendly_name: 'Alarm time'
         value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour") | int, states("input_number.alarmminutes") | int) }}'
 
-      ha_last_restart:
-        friendly_name: 'HA Last Restart'
-        value_template: '{{ as_timestamp(states.automation.startup_notification.attributes.last_triggered) | timestamp_custom("%b %d %X") }}'
-        icon_template: mdi:clock-start
-
 #################################################################
 ## Power
 #################################################################
@@ -135,22 +130,6 @@
     resource: https://api.travis-ci.org/repo/25969396/branch/master
     headers:
       Travis-API-Version: 3
-      User-Agent: MyClient/1.0.0
+      User-Agent: Hass/1.0.0
       Authorization: !secret travis_key
-    value_template: 'OK'
-    json_attributes:
-      - number
-      - state
-      - duration
-
-  - platform: template
-    sensors:
-      travis_number:
-        friendly_name: 'Travis build number'
-        value_template: '{{ states.sensor.travisci.attributes["last_build"]["number"] }}'
-      travis_state:
-        friendly_name: 'Travis build state'
-        value_template: '{{ states.sensor.travisci.attributes["last_build"]["state"] }}'
-      travis_duration:
-        friendly_name: 'Travis build duration'
-        value_template: '{{ states.sensor.travisci.attributes["last_build"]["duration"] }}'
+    value_template: '{{ value_json.last_build.state }}'

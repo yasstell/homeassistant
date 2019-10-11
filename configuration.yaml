@@ -21,3 +21,4 @@ meteo_france: !include meteo_france.yaml
 telegram_bot: !include telegram_bot.yaml
 notify: !include notify.yaml
 rest_command: !include rest_command.yaml
+panel_iframe: !include panel_iframe.yaml

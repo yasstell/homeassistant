@@ -1,2 +1,2 @@
 
-  update_homeassistant: '/bin/bash /home/homeassistant/.homeassistant/update_hass.sh'
+  update_homeassistant: sudo /home/homeassistant/.homeassistant/update_hass.sh

@@ -1,0 +1,37 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+homeassistant:
+  customize: !include customize.yaml
+  whitelist_external_dirs:
+    - !secret db_file_path
+
+conversation:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+sensor: !include sensors.yaml
+input_boolean: !include input_boolean.yaml
+input_number: !include input_number.yaml
+input_select: !include input_select.yaml
+media_player: !include media_player.yaml
+cast: !include cast.yaml
+meteo_france: !include meteo_france.yaml
+telegram_bot: !include telegram_bot.yaml
+notify: !include notify.yaml
+rest_command: !include rest_command.yaml
+panel_iframe: !include panel_iframe.yaml
+shell_command: !include shell_command.yaml
+speedtestdotnet:
+upnp:
+apcupsd:
+sun:

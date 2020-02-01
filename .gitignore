@@ -1,0 +1,40 @@
+# Git Ignore File
+
+# Do not ignore
+!/.gitignore
+!/.travis.yml
+
+# Ignore Logs
+logs
+*.log
+
+# Ignore Folders
+.git
+.storage
+.cloud
+.vscode
+.Trash-*
+deps/
+tts/
+www/
+custom_components/
+
+# Ignored Files
+secrets.yaml
+ip_bans.yaml
+known_devices.yaml
+cameras.yaml
+*.pid
+*.xml
+*.csr
+*.crt
+*.key
+*.conf
+*.db
+*.db*
+*.uuid
+*.sqlite
+*.txt
+
+# Operating System Trash Files
+.DS_Store

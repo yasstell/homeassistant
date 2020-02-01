@@ -1,0 +1,8 @@
+  domoticz:
+    title: 'Domoticz'
+    url: !secret domoticz_url
+    icon: mdi:server
+  nuc:
+    title: 'NUC'
+    url: !secret nuc_url
+    icon: mdi:server

@@ -1,0 +1,12 @@
+    - city: !secret city
+      monitored_conditions:
+        - temperature
+        - weather
+        - wind_speed
+        - uv
+        - next_rain
+        - freeze_chance
+        - rain_chance
+        - snow_chance
+        - thunder_chance
+        - weather_alert

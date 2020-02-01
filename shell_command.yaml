@@ -1,0 +1,3 @@
+
+  update_homeassistant: '/usr/bin/sudo -S /bin/bash /home/homeassistant/.homeassistant/update_hass.sh'
+  backup_homeassistant: '/bin/bash /home/homeassistant/.homeassistant/backup_hass.sh'

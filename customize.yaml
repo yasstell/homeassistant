@@ -1,0 +1,47 @@
+sensor.ha_available_version:
+  friendly_name: Latest version
+  icon: mdi:package-down
+sensor.ha_installed_version:
+  friendly_name: Current version
+  icon: mdi:home-assistant
+sensor.ha_uptime:
+  friendly_name: Uptime
+sensor.myip:
+  friendly_name: IP address
+  icon: mdi:ip-network
+sensor.travisci:
+  friendly_name: Travis CI build
+  icon: mdi:worker
+sensor.netdata_cpu_iowait:
+  friendly_name: Netdata cpu_iowait
+  icon: mdi:chip
+sensor.netdata_cpu_softirq:
+  icon: mdi:chip
+sensor.netdata_cpu_system:
+  icon: mdi:chip
+sensor.netdata_cpu_user:
+  icon: mdi:chip
+sensor.netdata_memory_cached:
+  icon: mdi:memory
+sensor.netdata_memory_free:
+  icon: mdi:memory
+sensor.netdata_memory_used:
+  icon: mdi:memory
+sensor.netdata_disk_avail:
+  icon: mdi:harddisk
+sensor.netdata_disk_used:
+  icon: mdi:harddisk
+sensor.home_assistant_v2_db:
+  icon: mdi:database
+sensor.alarm_time:
+  icon: mdi:alarm
+sensor.fajr:
+  icon: mdi:clock-outline
+sensor.dhuhr:
+  icon: mdi:clock-outline
+sensor.asr:
+  icon: mdi:clock-outline
+sensor.maghrib:
+  icon: mdi:clock-outline
+sensor.isha:
+  icon: mdi:clock-outline

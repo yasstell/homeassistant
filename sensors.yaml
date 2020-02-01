@@ -1,0 +1,166 @@
+#################################################################
+## Date and time
+#################################################################
+
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+
+#################################################################
+## HA
+#################################################################
+
+  - platform: uptime
+    name: HA uptime
+    unit_of_measurement: days
+
+  - platform: rest
+    name: HA available version
+    resource: https://pypi.python.org/pypi/homeassistant/json
+    value_template: '{{ value_json.info.version }}'
+
+  - platform: version
+    name: HA installed version
+
+  - platform: filesize
+    file_paths:
+      - !secret db_file
+
+#################################################################
+## Islamic prayer times
+#################################################################
+
+  - platform: rest
+    name: Fajr
+    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    value_template: '{{ value_json.data.timings.Fajr }}'
+
+  - platform: rest
+    name: Dhuhr
+    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    value_template: '{{ value_json.data.timings.Dhuhr }}'
+
+  - platform: rest
+    name: Asr
+    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    value_template: '{{ value_json.data.timings.Asr }}'
+
+  - platform: rest
+    name: Maghrib
+    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    value_template: '{{ value_json.data.timings.Maghrib }}'
+
+  - platform: rest
+    name: Isha
+    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    value_template: '{{ value_json.data.timings.Isha }}'
+
+  - platform: rest
+    name: Hijri
+    resource: http://api.aladhan.com/gToH
+    value_template: '{{ value_json.data.hijri.date }}'
+
+  - platform: rest
+    name: Aid
+    resource: http://api.aladhan.com/nextHijriHoliday
+    value_template: '{{ value_json.data.hijri.holidays[0] }} {{ value_json.data.hijri.date }} {{ value_json.data.gregorian.date }}'
+
+#################################################################
+## Air
+#################################################################
+
+  - platform: rest
+    name: Airparif
+    resource: http://www.airparif.asso.fr/appli/api/indice
+    value_template: '{{ value_json[1].indice }}'
+    scan_interval: 21600
+    headers:
+      User-Agent: Mozilla/5.0
+
+#################################################################
+## Template sensors
+#################################################################
+
+  - platform: template
+    sensors:
+      alarm_time:
+        friendly_name: 'Alarm time'
+        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour") | int, states("input_number.alarmminutes") | int) }}'
+
+#################################################################
+## Power
+#################################################################
+
+  - platform: rest
+    name: power_usage
+    resource: http://192.168.1.12:8084/json.htm?type=devices&rid=1
+    value_template: '{{ (value_json.result[0].Usage.split())[0] }}'
+    unit_of_measurement: Watt
+
+  - platform: rest
+    name: power_today
+    resource: http://192.168.1.12:8084/json.htm?type=devices&rid=1
+    value_template: '{{ (value_json.result[0].CounterToday.split())[0] }}'
+    unit_of_measurement: kWh
+
+#################################################################
+## Network
+#################################################################
+
+  - platform: dnsip
+    name: myip
+
+  - platform: netdata
+    resources:
+      memory_free:
+        data_group: system.ram
+        element: free       
+      memory_used:
+        data_group: system.ram
+        element: used
+      memory_cached:
+        data_group: system.ram
+        element: cached
+      cpu_system:
+        data_group: system.cpu
+        element: system
+      cpu_user:
+        data_group: system.cpu
+        element: user
+      cpu_softirq:
+        data_group: system.cpu
+        element: softirq
+      cpu_iowait:
+        data_group: system.cpu
+        element: iowait
+      disk_used:
+        data_group: disk_space._
+        element: used
+      disk_avail:
+        data_group: disk_space._
+        element: avail
+
+  - platform: apcupsd
+    resources:
+      - bcharge
+      - linev
+      - loadpct
+      - nominv
+      - numxfers
+      - status
+      - timeleft
+      - tonbatt
+
+#################################################################
+## Travis
+#################################################################
+
+  - platform: rest
+    name: travisci
+    resource: https://api.travis-ci.org/repo/25969396/branch/master
+    headers:
+      Travis-API-Version: 3
+      User-Agent: Hass/1.0.0
+      Authorization: !secret travis_key
+    value_template: '{{ value_json.last_build.state }}'

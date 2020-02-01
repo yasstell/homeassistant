@@ -1,0 +1,265 @@
+- id: adhan_start
+  alias: Start Adhan
+  description: Start adhan audio on speakers when current time matches sensors
+  trigger:
+  - minutes: /1
+    platform: time_pattern
+    seconds: '0'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.adhanaudio
+      state: 'on'
+    - condition: template
+      value_template: '{{ (states.sensor.time.state == states.sensor.fajr.state) or
+        (states.sensor.time.state == states.sensor.dhuhr.state) or (states.sensor.time.state
+        == states.sensor.asr.state) or (states.sensor.time.state == states.sensor.maghrib.state)
+        or (states.sensor.time.state == states.sensor.isha.state) }}'
+  action:
+  - data:
+      entity_id: media_player.sony_stereo
+      volume_level: '0.05'
+    service: media_player.volume_set
+  - data:
+      entity_id: media_player.sony_stereo
+      media_content_id: http://192.168.1.12:8123/local/adhan.mp3
+      media_content_type: audio/mp3
+    service: media_player.play_media
+- id: adhan_stop
+  alias: Stop Adhan
+  description: Stop adhan audio on speakers if the toggle is turned off
+  trigger:
+  - entity_id: input_boolean.adhanaudio
+    from: 'on'
+    platform: state
+    to: 'off'
+  action:
+  - data:
+      entity_id: media_player.sony_stereo
+    service: media_player.media_stop
+- id: wakeup_automation
+  alias: Start wakeup alarm
+  description: Start radio on speaker and turn on light when wakeup time is reached
+  trigger:
+  - minutes: /1
+    platform: time_pattern
+    seconds: '0'
+  condition:
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: template
+        value_template: '{{ states.sensor.time.state == states.sensor.alarm_time.state  }}'
+      - condition: state
+        entity_id: input_boolean.alarmstatus
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.alarmweekday
+        state: 'on'
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    - condition: and
+      conditions:
+      - condition: template
+        value_template: '{{ states.sensor.time.state == states.sensor.alarm_time.state  }}'
+      - condition: state
+        entity_id: input_boolean.alarmstatus
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.alarmweekday
+        state: 'off'
+  action:
+  - data:
+      volume_level: '0.15'
+    entity_id: media_player.bose_speaker
+    service: media_player.volume_set
+  - data_template:
+      entity_id: media_player.bose_speaker
+      media_content_id: '{% if is_state("input_select.radio", "Franceinfo") %} 1 {%
+        elif is_state("input_select.radio", "Cherie FM") %} 2 {% elif is_state("input_select.radio",
+        "NRJ") %} 3 {% elif is_state("input_select.radio", "Virgin Radio") %} 4 {%
+        elif is_state("input_select.radio", "RMC") %} 5 {% elif is_state("input_select.radio",
+        "Radio Orient") %} 6 {% endif %}
+
+        '
+      media_content_type: PLAYLIST
+    service: media_player.play_media
+  - data:
+      brightness_pct: 20
+    entity_id: light.lifx
+    service: light.turn_on
+  - data_template:
+      brightness_pct: 100
+      entity_id: light.lifx
+      transition: '{{ states(''input_number.alarmduration'')|float }}
+
+        '
+    service: light.turn_on
+- id: '1570130162116'
+  alias: Notify HA startup
+  description: Notify via telegram when homeassistant starts
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data:
+      message: Home Assistant restarted successfully!
+      title: Starup
+    service: notify.telegram
+- id: '1570130345726'
+  alias: Build new HA version
+  description: Trigger a new Travis CI build when a new version of homeassistant is
+    available and notify via telegram
+  trigger:
+  - entity_id: binary_sensor.updater
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: "Home Assistant {{ state_attr('binary_sensor.updater', 'newest_version')\
+        \ }} is available. \nNew Travis build will start."
+      title: New version
+    service: notify.telegram
+  - data: {}
+    service: rest_command.trigger_build
+- id: '1570130412885'
+  alias: Notify IP change
+  description: Notify via telegram when IP address changed
+  trigger:
+  - entity_id: sensor.myip
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: 'New IP address : {{ states.sensor.myip.state }} '
+      title: IP change
+    service: notify.telegram
+- id: '1570130666846'
+  alias: Notify high pollution
+  description: Notify via telegram when high pollution is detected
+  trigger:
+  - above: '75'
+    entity_id: sensor.airparif
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      message: 'High value detected : {{ states.sensor.airparif.state }} !'
+      title: Pollution
+    service: notify.telegram
+- id: '1570138768102'
+  alias: Notify high power
+  description: Notify via telegram when high power value is detected
+  trigger:
+  - above: '20'
+    entity_id: sensor.power_today
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      message: 'High power today : {{ states.sensor.power_today.state }} !'
+      title: Power
+    service: notify.telegram
+- id: '1570139436906'
+  alias: Notify weather alert
+  description: Notify via telegram when new weather alert is raised
+  trigger:
+  - entity_id: sensor.palaiseau_weather_alert
+    from: Vert
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: "Vigilance meteofrance : {{ states.sensor.palaiseau_weather_alert.state\
+        \ }}  \nVent violent : {{ states.sensor.palaiseau_weather_alert.attributes[\"\
+        Vent violent\"] }} \nPluie-innodation : {{ states.sensor.palaiseau_weather_alert.attributes[\"\
+        Pluie-innodation\"] }} \nOrages : {{ states.sensor.palaiseau_weather_alert.attributes[\"\
+        Orages\"] }} \nInondation : {{ states.sensor.palaiseau_weather_alert.attributes[\"\
+        Inondation\"] }} \nNeige-verglas : {{ states.sensor.palaiseau_weather_alert.attributes[\"\
+        Neige-verglas\"] }} \nCanicule : {{ states.sensor.palaiseau_weather_alert.attributes[\"\
+        Canicule\"] }} \nGrand-froid : {{ states.sensor.palaiseau_weather_alert.attributes[\"\
+        Grand-froid\"] }} \nAvalanches : {{ states.sensor.palaiseau_weather_alert.attributes[\"\
+        Avalanches\"] }} \nVagues-submersion : {{ states.sensor.palaiseau_weather_alert.attributes[\"\
+        Vagues-submersion\"] }}"
+      title: Weather alert
+    service: notify.telegram
+- id: '1570815517505'
+  alias: Notify travis status
+  description: Notify via telegram when travis build status changes
+  trigger:
+  - entity_id: sensor.travisci
+    platform: state
+  condition: []
+  action:
+  - data:
+      message: 'Build status : {{ states.sensor.travisci.state }} '
+      title: Travis
+    service: notify.telegram
+- id: '1570992608154'
+  alias: Update HA
+  description: Update homeassistant when Travis CI build is successfull
+  trigger:
+  - entity_id: sensor.travisci
+    from: started
+    platform: state
+    to: passed
+  condition: []
+  action:
+  - service: shell_command.update_homeassistant
+- id: '1571165783077'
+  alias: Notify HA shutdown
+  description: Notify via telegram when homeassistant stops
+  trigger:
+  - event: shutdown
+    platform: homeassistant
+  condition: []
+  action:
+  - data:
+      message: Home Assistant will shutdown
+      title: Shutdown
+    service: notify.telegram
+- id: '1573497932533'
+  alias: Backup HA
+  description: Backup homeassistant configuration to github everyday at 21:00
+  trigger:
+  - at: '21:00:00'
+    platform: time
+  condition: []
+  action:
+  - service: shell_command.backup_homeassistant
+- id: '1577132418339'
+  alias: Start vacation mode
+  description: Start vacation mode everyday at sunset until midnight if the toggle
+    is tuned on
+  trigger:
+  - event: sunset
+    platform: sun
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacation_mode
+    state: 'on'
+  action:
+  - data:
+      message: Start
+      title: Vacation mode
+    service: notify.telegram
+  - entity_id: light.lifx
+    service: light.turn_on
+  - data_template:
+      entity_id: media_player.bose_speaker
+      media_content_id: 1
+      media_content_type: PLAYLIST
+    service: media_player.play_media
+  - wait_template: '{{ states.sensor.time.state == ''00:00'' }}'
+  - entity_id: light.lifx
+    service: light.turn_off

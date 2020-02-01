@@ -1,0 +1,10 @@
+  radio:
+    name: Station
+    options:
+      - Franceinfo
+      - Cherie FM
+      - NRJ
+      - Virgin Radio
+      - RMC
+      - Radio Orient
+    icon: mdi:radio

@@ -1,0 +1,13 @@
+  intents:
+    LivingRoomTemperature:
+     - What is the temperature in [the] livingroom
+     - What is the temperature in [the] living room
+    BedRoomTemperature:
+     - What is the temperature in [the] bedroom
+     - What is the temperature in [the] bed room
+    GuestRoomTemperature:
+     - What is the temperature in [the] guestroom
+     - What is the temperature in [the] guest room
+    ColorLight:
+     - Change [the] light to [the color] {color}
+     - Change [the] lights to [the color] {color}

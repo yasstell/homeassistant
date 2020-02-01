@@ -7,7 +7,8 @@ homeassistant:
   whitelist_external_dirs:
     - !secret db_file_path
 
-conversation:
+conversation: !include conversation.yaml
+intent_script: !include intent_script.yaml
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 # http:

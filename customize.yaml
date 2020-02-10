@@ -45,3 +45,5 @@ sensor.maghrib:
   icon: mdi:clock-outline
 sensor.isha:
   icon: mdi:clock-outline
+media_player.unnamed_device:
+  friendly_name: Chromecast

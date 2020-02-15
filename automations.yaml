@@ -18,11 +18,11 @@
         or (states.sensor.time.state == states.sensor.isha.state) }}'
   action:
   - data:
-      entity_id: media_player.sony_stereo
+      entity_id: media_player.sony_speaker_stereo
       volume_level: '0.05'
     service: media_player.volume_set
   - data:
-      entity_id: media_player.sony_stereo
+      entity_id: media_player.sony_speaker_stereo
       media_content_id: http://192.168.1.12:8123/local/adhan.mp3
       media_content_type: audio/mp3
     service: media_player.play_media
@@ -36,7 +36,7 @@
     to: 'off'
   action:
   - data:
-      entity_id: media_player.sony_stereo
+      entity_id: media_player.sony_speaker_stereo
     service: media_player.media_stop
 - id: wakeup_automation
   alias: Start wakeup alarm

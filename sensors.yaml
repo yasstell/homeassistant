@@ -32,29 +32,58 @@
 #################################################################
 
   - platform: rest
-    name: Fajr
+    name: Adhan
     resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    value_template: '{{ value_json.data.timings.Fajr }}'
+    value_template: '{{ value_json.data.timings }}'
+    json_attributes:
+      - Fajr
+      - Dhuhr
+      - Asr
+      - Maghrib
+      - Isha
 
-  - platform: rest
-    name: Dhuhr
-    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    value_template: '{{ value_json.data.timings.Dhuhr }}'
+  - platform: template
+    sensors:
+      fajr:
+        friendly_name: 'Fajr'
+        value_template: '{{ states.sensor.adhan.attributes["Fajr"] }}'
+      dhuhr:
+        friendly_name: 'Dhuhr'
+        value_template: '{{ states.sensor.adhan.attributes["Dhuhr"] }}'
+      asr:
+        friendly_name: 'Asr'
+        value_template: '{{ states.sensor.adhan.attributes["Asr"] }}'
+      maghrib:
+        friendly_name: 'Maghrib'
+        value_template: '{{ states.sensor.adhan.attributes["Maghrib"] }}'
+      isha:
+        friendly_name: 'Isha'
+        value_template: '{{ states.sensor.adhan.attributes["Isha"] }}'
 
-  - platform: rest
-    name: Asr
-    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    value_template: '{{ value_json.data.timings.Asr }}'
+    #  - platform: rest
+    #    name: Fajr
+    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    #    value_template: '{{ value_json.data.timings.Fajr }}'
 
-  - platform: rest
-    name: Maghrib
-    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    value_template: '{{ value_json.data.timings.Maghrib }}'
+    #  - platform: rest
+    #    name: Dhuhr
+    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    #    value_template: '{{ value_json.data.timings.Dhuhr }}'
 
-  - platform: rest
-    name: Isha
-    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    value_template: '{{ value_json.data.timings.Isha }}'
+    #  - platform: rest
+    #    name: Asr
+    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    #    value_template: '{{ value_json.data.timings.Asr }}'
+
+    #  - platform: rest
+    #    name: Maghrib
+    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    #    value_template: '{{ value_json.data.timings.Maghrib }}'
+
+    #  - platform: rest
+    #    name: Isha
+    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
+    #    value_template: '{{ value_json.data.timings.Isha }}'
 
   - platform: rest
     name: Hijri

@@ -7,6 +7,12 @@
       - 'time'
       - 'date'
 
+  - platform: template
+    sensors:
+      alarm_time:
+        friendly_name: 'Alarm time'
+        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour") | int, states("input_number.alarmminutes") | int) }}'
+
 #################################################################
 ## HA
 #################################################################
@@ -28,13 +34,14 @@
       - !secret db_file
 
 #################################################################
-## Islamic prayer times
+## Prayer times
 #################################################################
 
   - platform: rest
     name: Adhan
     resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    value_template: '{{ value_json.data.timings }}'
+    value_template: '{{ value_json.status }}'
+    json_attributes_path: "$.data.timings"
     json_attributes:
       - Fajr
       - Dhuhr
@@ -60,31 +67,6 @@
         friendly_name: 'Isha'
         value_template: '{{ states.sensor.adhan.attributes["Isha"] }}'
 
-    #  - platform: rest
-    #    name: Fajr
-    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    #    value_template: '{{ value_json.data.timings.Fajr }}'
-
-    #  - platform: rest
-    #    name: Dhuhr
-    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    #    value_template: '{{ value_json.data.timings.Dhuhr }}'
-
-    #  - platform: rest
-    #    name: Asr
-    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    #    value_template: '{{ value_json.data.timings.Asr }}'
-
-    #  - platform: rest
-    #    name: Maghrib
-    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    #    value_template: '{{ value_json.data.timings.Maghrib }}'
-
-    #  - platform: rest
-    #    name: Isha
-    #    resource: http://api.aladhan.com/timingsByCity?city=Massy&country=FR&method=12
-    #    value_template: '{{ value_json.data.timings.Isha }}'
-
   - platform: rest
     name: Hijri
     resource: http://api.aladhan.com/gToH
@@ -106,16 +88,6 @@
     scan_interval: 21600
     headers:
       User-Agent: Mozilla/5.0
-
-#################################################################
-## Template sensors
-#################################################################
-
-  - platform: template
-    sensors:
-      alarm_time:
-        friendly_name: 'Alarm time'
-        value_template: '{{ "%0.02d:%0.02d" | format(states("input_number.alarmhour") | int, states("input_number.alarmminutes") | int) }}'
 
 #################################################################
 ## Power

@@ -78,7 +78,7 @@
     value_template: '{{ value_json.data.hijri.holidays[0] }} {{ value_json.data.hijri.date }} {{ value_json.data.gregorian.date }}'
 
 #################################################################
-## Air
+## Air quality
 #################################################################
 
   - platform: rest
@@ -88,6 +88,76 @@
     scan_interval: 21600
     headers:
       User-Agent: Mozilla/5.0
+
+  - platform: rest
+    name: Pollen
+    resource: https://www.pollens.fr/risks/thea/counties/91
+    value_template: '{{ value_json.riskLevel }}'
+    json_attributes:
+      - risks
+
+  - platform: template
+    sensors:
+      pollen_risks:
+        friendly_name: 'Pollen risks'
+        value_template: '{{ states.sensor.pollen.attributes["risks"] | length }}'
+      tilleul:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][0]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][0]["level"] }}'
+      ambroisies:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][1]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][1]["level"] }}'
+      olivier:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][2]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][2]["level"] }}'
+      plantain:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][3]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][3]["level"] }}'
+      noisetier:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][4]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][4]["level"] }}'
+      aulne:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][5]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][5]["level"] }}'
+      armoise:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][6]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][6]["level"] }}'
+      chataignier:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][7]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][7]["level"] }}'
+      urticacees:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][8]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][8]["level"] }}'
+      oseille:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][9]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][9]["level"] }}'
+      graminees:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][10]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][10]["level"] }}'
+      chene:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][11]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][11]["level"] }}'
+      platane:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][12]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][12]["level"] }}'
+      bouleau:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][13]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][13]["level"] }}'
+      charme:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][14]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][14]["level"] }}'
+      peuplier:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][15]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][15]["level"] }}'
+      frene:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][16]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][16]["level"] }}'
+      saule:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][17]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][17]["level"] }}'
+      cypres:
+        friendly_name_template: '{{ states.sensor.pollen.attributes["risks"][18]["pollenName"] }}'
+        value_template: '{{ states.sensor.pollen.attributes["risks"][18]["level"] }}'
 
 #################################################################
 ## Power

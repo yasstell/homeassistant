@@ -263,3 +263,16 @@
   - wait_template: '{{ states.sensor.time.state == ''00:00'' }}'
   - entity_id: light.lifx
     service: light.turn_off
+- id: '1587319960635'
+  alias: Notify high pollen
+  description: Notify via telegram when pollen level is high
+  trigger:
+  - entity_id: sensor.bouleau
+    platform: state
+    to: '5'
+  condition: []
+  action:
+  - data:
+      message: 'Bouleau level is : {{ states.sensor.bouleau.state }}  '
+      title: Pollen alert
+    service: notify.telegram

@@ -273,6 +273,18 @@
   condition: []
   action:
   - data:
-      message: 'Bouleau level is : {{ states.sensor.bouleau.state }}  '
+      message: "Cyprès level : {{ states.sensor.cypres.state }}   \nSaule level :\
+        \ {{ states.sensor.saule.state }}   \nFrêne level : {{ states.sensor.frene.state\
+        \ }}\nPeuplier level : {{ states.sensor.peuplier.state }} \nCharme level :\
+        \ {{ states.sensor.charme.state }} \nBouleau level : {{ states.sensor.bouleau.state\
+        \ }} \nPlatane level : {{ states.sensor.platane.state }} \nChêne level : {{\
+        \ states.sensor.chene.state }} \nGraminées level : {{ states.sensor.graminees.state\
+        \ }} \nOseille level : {{ states.sensor.oseille.state }} \nUrticacées level\
+        \ : {{ states.sensor.urticacees.state }}   \nChâtaignier level : {{ states.sensor.chataignier.state\
+        \ }}   \nArmoise level : {{ states.sensor.armoise.state }} \nAulne level :\
+        \ {{ states.sensor.aulne.state }}\nNoisetier level : {{ states.sensor.noisetier.state\
+        \ }} \nPlantain level : {{ states.sensor.plantain.state }} \nOlivier level\
+        \ : {{ states.sensor.olivier.state }} \nAmbroisies level : {{ states.sensor.ambroisies.state\
+        \ }} \nTilleul level : {{ states.sensor.tilleul.state }}"
       title: Pollen alert
     service: notify.telegram
